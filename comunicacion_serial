@@ -1,0 +1,74 @@
+/* 
+ *  UNIVERSIDAD TECNICA DEL NORTE
+ *          FICA-CIERCOM
+ *    SISTEMAS MICROPROCESADOS
+ *          
+ *  ANDRES SANTIAGO CABRERA GONGORA 
+ *  17 DE MAYO DE 2019
+ *  
+ *  
+ * Realizar una validación de placa de vehículo donde indique: 
+ * *La provincia *si ha registrado los 4 dígitos necesarios. 
+ * *si no tiene números en la parte de las letras.
+ *  
+ *  
+ */
+
+
+
+#include<stdlib.h>
+void setup() {
+
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  if (Serial.available() > 0) {
+    String placa = Serial.readString();
+    validarplaca(placa);
+  }
+}
+
+void validarplaca(String placa2) {
+
+  char digito1 = placa2.charAt(0);
+  char digito4 = placa2.charAt(3);
+  int validador[] = {2, 1, 2, 1};
+  int valor;
+  int total = 0;
+
+  int n1 = digito1 - 48;
+  int n4 = digito4 - 48;
+  int total2 = 0;
+
+
+
+  if (placa2.length() == 4) {
+        for (int i = 0; i < 3; i++) {
+          valor = validador[i] * (((placa2.charAt(i) - 48)));
+          if (valor >= 10) {
+            valor = valor - 3;
+          }
+          total = total + valor;
+          total2 = 4 - (total % 4);
+          if (total2 == 4) {
+            total2 = 0;
+          }
+
+        }
+
+        if (total2 == n4) {
+          Serial.print(": ");
+          Serial.println("");
+          delay(200);
+
+        } else {
+          Serial.print(": ");
+          Serial.println("Incorrecto");
+          delay(200);
+
+        }
+
+  }
+  }
